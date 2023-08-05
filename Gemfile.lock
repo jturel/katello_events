@@ -1,0 +1,39 @@
+PATH
+  remote: .
+  specs:
+    katello_events (0.0.1)
+      stomp
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.8.4)
+      public_suffix (>= 2.0.2, < 6.0)
+    crack (0.4.5)
+      rexml
+    hashdiff (1.0.1)
+    minitest (5.18.1)
+    mocha (2.0.4)
+      ruby2_keywords (>= 0.0.5)
+    public_suffix (5.0.1)
+    rake (13.0.6)
+    rexml (3.2.5)
+    ruby2_keywords (0.0.5)
+    stomp (1.4.10)
+    webmock (3.18.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  katello_events!
+  minitest
+  mocha
+  rake
+  webmock
+
+BUNDLED WITH
+   2.2.24
