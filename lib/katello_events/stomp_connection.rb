@@ -1,6 +1,4 @@
-require 'logger'
 require 'stomp'
-
 require 'katello_events/received_message'
 
 module KatelloEvents
