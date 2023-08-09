@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'stomp'
 require 'katello_events/received_message'
 

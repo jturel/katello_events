@@ -1,4 +1,6 @@
-require_relative '../test_helper.rb'
+# frozen_string_literal: true
+
+require_relative '../test_helper'
 require 'katello_events/candlepin/listener'
 
 module KatelloEvents
@@ -16,9 +18,7 @@ module KatelloEvents
         assert @listener.start
       end
 
-      def test_heartbeat
-
-      end
+      def test_heartbeat; end
     end
   end
 end

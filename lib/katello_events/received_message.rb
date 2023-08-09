@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module KatelloEvents
   class ReceivedMessage
     attr_reader :headers, :body

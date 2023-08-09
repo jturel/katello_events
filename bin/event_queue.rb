@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'katello_events/event_queue/drainer'
 require 'katello_events/event_queue/poller'
 require 'syslog/logger'
@@ -9,7 +11,7 @@ poller = KatelloEvents::EventQueue::Poller.new(
   drainer: drainer
 )
 
-at_exit do 
+at_exit do
   poller.stop
 end
 

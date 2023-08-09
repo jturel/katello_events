@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'katello_events/katello_api'
 
 module KatelloEvents
@@ -12,6 +13,7 @@ module KatelloEvents
 
       def reset
         return if @reset # there shouldn't be a reason to invoke this more than once per invocation of the service
+
         ::KatelloEvents::KatelloApi.event_queue_reset.post
         @reset = true
       end

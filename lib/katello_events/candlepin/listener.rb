@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'katello_events/katello_api'
 require 'katello_events/candlepin/client_factory'
 require 'katello_events/candlepin/handler'
@@ -18,6 +20,7 @@ module KatelloEvents
 
       def start
         return if running?
+
         begin
           reset_client
           @client = @client_factory.get(@logger)
@@ -38,7 +41,7 @@ module KatelloEvents
 
       def stop
         reset_client
-        @logger.info "stopped candlepin event listener"
+        @logger.info 'stopped candlepin event listener'
       end
 
       def heartbeat

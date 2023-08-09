@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module KatelloEvents
   module Candlepin
     class Handler
-      EVENT_TARGET = 'EVENT_TARGET'.freeze
-      EVENT_TYPE = 'EVENT_TYPE'.freeze
+      EVENT_TARGET = 'EVENT_TARGET'
+      EVENT_TYPE = 'EVENT_TYPE'
 
       def initialize(message, logger)
         @message = message
@@ -19,7 +21,6 @@ module KatelloEvents
         end
         @logger.info "Handled #{@subject}"
       rescue KatelloApi::Error
-
       end
     end
   end

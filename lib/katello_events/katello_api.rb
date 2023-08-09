@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'net/http'
 require 'uri'
@@ -5,8 +7,7 @@ require 'katello_events/version'
 
 module KatelloEvents
   class KatelloApi
-
-    class Error < StandardError; end;
+    class Error < StandardError; end
 
     def initialize(uri, read_timeout = nil)
       @uri = URI.join(ENV['KATELLO_URI'], uri)
@@ -69,7 +70,7 @@ module KatelloEvents
       when Net::HTTPSuccess
         response
       else
-        raise Error.new("Request error #{response.code}")
+        raise Error, "Request error #{response.code}"
       end
     end
 

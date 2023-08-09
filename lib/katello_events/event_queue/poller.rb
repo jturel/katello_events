@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'katello_events/event_queue/drainer'
 require 'katello_events/katello_api'
 
@@ -13,9 +15,7 @@ module KatelloEvents
         @drainer.reset
         response = KatelloApi.event_queue_subscribe.get
 
-        if response.code == '200'
-          @drainer.drain
-        end
+        @drainer.drain if response.code == '200'
       rescue KatelloApi::Error => e
         @logger.error "Katello API error: #{e.message}"
       end

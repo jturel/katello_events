@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'minitest/autorun'
 require 'mocha/minitest'
 require 'logger'
 require 'openssl'
 require 'webmock/minitest'
 
-$LOAD_PATH.unshift File.expand_path('../../lib/', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 ENV['KATELLO_URI'] = 'https://katello.example.com'
 ENV['SSL_CLIENT_CERT'] = '/tmp/test_katello_events_client_cert.pem'
@@ -20,7 +22,7 @@ cert.subject = subject_name
 cert.issuer = subject_name
 cert.not_before = Time.now
 cert.not_after = Time.now + 30
-cert.sign key, OpenSSL::Digest::SHA256.new
+cert.sign key, OpenSSL::Digest.new('SHA256')
 
 File.write(ENV['SSL_CLIENT_CERT'], cert.to_pem)
 File.write(ENV['SSL_CLIENT_KEY'], key.to_pem)
@@ -28,10 +30,11 @@ File.write(ENV['SSL_CLIENT_KEY'], key.to_pem)
 TEST_LOGGER = Logger.new($stdout)
 
 def stub_katello_request(endpoint)
-  stub_request(:post, "https://katello.example.com#{endpoint}").
-    with(
+  stub_request(:post, "https://katello.example.com#{endpoint}")
+    .with(
       headers: {
-	    'Content-Type'=>'application/json',
-	    'Host'=>'katello.example.com'
-      })
+        'Content-Type' => 'application/json',
+        'Host' => 'katello.example.com'
+      }
+    )
 end

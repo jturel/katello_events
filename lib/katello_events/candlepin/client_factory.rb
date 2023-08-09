@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require 'katello_events/stomp_connection'
 
 module KatelloEvents
   module Candlepin
     class ClientFactory
-
       def self.get(logger)
         ::KatelloEvents::StompConnection.new(
           logger: logger,
