@@ -1,4 +1,3 @@
-require 'katello_events/heartbeat'
 require 'katello_events/event_queue/drainer'
 require 'katello_events/event_queue/poller'
 require 'syslog/logger'
@@ -14,15 +13,8 @@ at_exit do
   poller.stop
 end
 
-heartbeat = KatelloEvents::Heartbeat.new(
-  interval: ENV['HEARTBEAT_INTERVAL'].to_i,
-  service: poller,
-  logger: logger
-)
-
 loop do
   poller.tick
-  #heartbeat.trigger
 
-  sleep 1
+  sleep 2
 end
