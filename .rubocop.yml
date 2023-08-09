@@ -3,3 +3,6 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   SafeAutoCorrect: true
+
+Metrics/MethodLength:
+  Max: 15

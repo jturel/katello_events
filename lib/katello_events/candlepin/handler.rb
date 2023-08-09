@@ -20,7 +20,8 @@ module KatelloEvents
           }
         end
         @logger.info "Handled #{@subject}"
-      rescue KatelloApi::Error
+      rescue KatelloApi::Error => e
+        @logger.error "Katello API error: #{e.message}"
       end
     end
   end

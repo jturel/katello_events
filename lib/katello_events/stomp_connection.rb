@@ -5,6 +5,7 @@ require 'katello_events/received_message'
 
 module KatelloEvents
   class StompConnection
+    # rubocop:disable Metrics/MethodLength
     def initialize(settings:, logger:)
       ssl_params = Stomp::SSLParams.new(
         key_file: settings[:ssl_key_file],
@@ -39,6 +40,7 @@ module KatelloEvents
       @subscription_name = settings[:subscription_name]
       @client = nil
     end
+    # rubocop:enable Metrics/MethodLength
 
     def subscribe(queue_name: @queue_name, subscription_name: @subscription_name)
       options = {}

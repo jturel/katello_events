@@ -9,15 +9,23 @@ module KatelloEvents
   class KatelloApi
     class Error < StandardError; end
 
-    def initialize(uri, read_timeout = nil)
+    def initialize(uri, read_timeout = 60)
       @uri = URI.join(ENV['KATELLO_URI'], uri)
       @http = Net::HTTP.new(@uri.hostname, @uri.port)
       @http.use_ssl = true
       @http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-      @http.max_retries = 0 # katello_events is about retrying requests - don't use the http lib to do it
-      @http.read_timeout = read_timeout if read_timeout
-      @http.cert = OpenSSL::X509::Certificate.new(File.read(ENV['SSL_CLIENT_CERT']))
-      @http.key = OpenSSL::PKey::RSA.new(File.read(ENV['SSL_CLIENT_KEY']))
+      @http.max_retries = 0 # this could lead to things like multiple event queue subscriptions; don't enable this
+      @http.read_timeout = read_timeout
+      @http.cert = self.class.ssl_cert
+      @http.key = self.class.ssl_key
+    end
+
+    def self.ssl_cert
+      @ssl_cert ||= OpenSSL::X509::Certificate.new(File.read(ENV['SSL_CLIENT_CERT']))
+    end
+
+    def self.ssl_key
+      @ssl_key ||= OpenSSL::PKey::RSA.new(File.read(ENV['SSL_CLIENT_KEY']))
     end
 
     def self.event_queue_heartbeat
