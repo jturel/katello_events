@@ -22,7 +22,7 @@ heartbeat = KatelloEvents::Heartbeat.new(
 
 loop do
   poller.tick
-  heartbeat.trigger
+  #heartbeat.trigger
 
   sleep 1
 end

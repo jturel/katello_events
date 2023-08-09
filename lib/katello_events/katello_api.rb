@@ -13,6 +13,7 @@ module KatelloEvents
       @http = Net::HTTP.new(@uri.hostname, @uri.port,)
       @http.use_ssl = true
       @http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      #@http.read_timeout = 15
       @http.cert = OpenSSL::X509::Certificate.new(File.read(ENV['SSL_CLIENT_CERT']))
       @http.key = OpenSSL::PKey::RSA.new(File.read(ENV['SSL_CLIENT_KEY']))
     end
@@ -29,12 +30,24 @@ module KatelloEvents
       @event_queue_reset ||= new('/api/internal/event_queue/reset')
     end
 
+    def self.event_queue_subscribe
+      @event_queue_subscribe ||= new('/api/internal/event_queue/subscribe')
+    end
+
     def self.handle_candlepin_event
       @handle_candlepin_event ||= new('/api/internal/candlepin_events/handle')
     end
 
     def self.candlepin_events_heartbeat
       @candlepin_events_heartbeat ||= new('/api/internal/candlepin_events/heartbeat')
+    end
+
+    def get
+      request = Net::HTTP::Get.new(@uri)
+      request.add_field('Accept', 'application/json')
+      request['User-Agent'] = "katello_events/#{KatelloEvents::VERSION}"
+
+      @http.request(request)
     end
 
     def post
@@ -65,6 +78,5 @@ module KatelloEvents
     rescue Errno::ECONNREFUSED
       raise Error.new("Katello is offline")
     end
-
   end
 end

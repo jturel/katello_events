@@ -22,11 +22,12 @@ module KatelloEvents
       end
 
       def tick
-        return if Time.now < @last_tick + @tick_interval
-
         @drainer.reset
-        @drainer.drain
-        @last_tick = Time.now
+        response = KatelloApi.event_queue_subscribe.get
+
+        if response.code == '200'
+          @drainer.drain
+        end
       rescue KatelloApi::Error => e
         @logger.error "event queue error: #{e.message}"
       end
