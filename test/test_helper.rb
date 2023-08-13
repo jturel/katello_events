@@ -24,8 +24,8 @@ cert.not_before = Time.now
 cert.not_after = Time.now + 30
 cert.sign key, OpenSSL::Digest.new('SHA256')
 
-File.write(ENV['SSL_CLIENT_CERT'], cert.to_pem)
-File.write(ENV['SSL_CLIENT_KEY'], key.to_pem)
+File.write(ENV.fetch('SSL_CLIENT_CERT', nil), cert.to_pem)
+File.write(ENV.fetch('SSL_CLIENT_KEY', nil), key.to_pem)
 
 TEST_LOGGER = Logger.new($stdout)
 

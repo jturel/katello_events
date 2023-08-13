@@ -20,12 +20,14 @@ module KatelloEvents
 
       def drain
         @processed = 0
+        start = Time.now
 
         ::KatelloEvents::KatelloApi.event_queue_next.start do |api|
           drain_loop(api)
         end
+        #drain_loop(nil)
       ensure
-        @logger.info("event queue processed=#{@processed}") unless @processed.zero?
+        @logger.info("event queue processed=#{@processed} elapsed=#{Time.now-start}") unless @processed.zero?
       end
 
       def stop
@@ -37,6 +39,7 @@ module KatelloEvents
       def drain_loop(api)
         return if @stop
 
+        #response = ::KatelloEvents::KatelloApi.event_queue_next.post
         response = api.post
         return unless response.code == '200'
 

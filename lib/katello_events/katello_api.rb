@@ -9,8 +9,9 @@ module KatelloEvents
   class KatelloApi
     class Error < StandardError; end
 
-    def initialize(uri, read_timeout = 60)
-      @uri = URI.join(ENV['KATELLO_URI'], uri)
+    def initialize(path, read_timeout = 60)
+      #@uri = URI.join(ENV.fetch('KATELLO_URI', nil), uri)
+      @uri = URI::HTTPS.build(host: ENV['KATELLO_URI'], path: path)
       @http = Net::HTTP.new(@uri.hostname, @uri.port)
       @http.use_ssl = true
       @http.verify_mode = OpenSSL::SSL::VERIFY_PEER
@@ -21,11 +22,11 @@ module KatelloEvents
     end
 
     def self.ssl_cert
-      @ssl_cert ||= OpenSSL::X509::Certificate.new(File.read(ENV['SSL_CLIENT_CERT']))
+      @ssl_cert ||= OpenSSL::X509::Certificate.new(File.read(ENV.fetch('SSL_CLIENT_CERT', nil)))
     end
 
     def self.ssl_key
-      @ssl_key ||= OpenSSL::PKey::RSA.new(File.read(ENV['SSL_CLIENT_KEY']))
+      @ssl_key ||= OpenSSL::PKey::RSA.new(File.read(ENV.fetch('SSL_CLIENT_KEY', nil)))
     end
 
     def self.event_queue_heartbeat
@@ -43,6 +44,10 @@ module KatelloEvents
     def self.event_queue_subscribe
       # The timeout specified here should be slightly larger than the subscription timeout on the server side
       @event_queue_subscribe ||= new('/api/internal/event_queue/subscribe', 180)
+    end
+
+    def self.event_queue_query
+      @event_queue_query ||= new('/api/internal/event_queue/query')
     end
 
     def self.handle_candlepin_event

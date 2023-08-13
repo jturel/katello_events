@@ -14,9 +14,11 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.7.0'
 
   s.add_runtime_dependency 'stomp', '< 1.5'
+  s.add_runtime_dependency 'pg', '< 2.0'
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'mocha'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'webmock'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

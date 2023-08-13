@@ -9,14 +9,14 @@ module KatelloEvents
         ::KatelloEvents::StompConnection.new(
           logger: logger,
           settings: {
-            ssl_cert_file: ENV['SSL_CLIENT_CERT'],
-            ssl_key_file: ENV['SSL_CLIENT_KEY'],
-            ssl_ca_file: ENV['SSL_CA_FILE'],
-            broker_host: ENV['BROKER_HOST'],
-            broker_port: ENV['BROKER_PORT'],
-            queue_name: ENV['QUEUE_NAME'],
-            subscription_name: ENV['SUBSCRIPTION_NAME'],
-            client_id: ENV['CLIENT_ID']
+            ssl_cert_file: ENV.fetch('SSL_CLIENT_CERT', nil),
+            ssl_key_file: ENV.fetch('SSL_CLIENT_KEY', nil),
+            ssl_ca_file: ENV.fetch('SSL_CA_FILE', nil),
+            broker_host: ENV.fetch('BROKER_HOST', nil),
+            broker_port: ENV.fetch('BROKER_PORT', nil),
+            queue_name: ENV.fetch('QUEUE_NAME', nil),
+            subscription_name: ENV.fetch('SUBSCRIPTION_NAME', nil),
+            client_id: ENV.fetch('CLIENT_ID', nil)
           }
         )
       end

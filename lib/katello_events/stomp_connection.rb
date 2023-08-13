@@ -30,7 +30,7 @@ module KatelloEvents
         reliable: false,
         connect_headers: {
           'accept-version': '1.2',
-          'host': settings[:broker_host],
+          host: settings[:broker_host],
           'heart-beat': '30000,30000',
           'client-id': settings[:client_id]
         }
